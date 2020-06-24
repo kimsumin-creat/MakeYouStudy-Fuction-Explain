@@ -106,6 +106,7 @@ private void checkOverlayPermission(){
 }
 ~~~
 아래와 같은 결과를 볼 수 있다.
+
 ![permissionCheck](https://user-images.githubusercontent.com/46085058/85485386-9473de00-b603-11ea-891a-c55566c952d5.png)
 
 <h1>로그인 기능  </h1>
@@ -287,6 +288,7 @@ FirebaseUser user = firebaseAuth.getCurrentUser();
 <br>
 
 <h1>로그인</h1>
+
 ![로로그인](https://user-images.githubusercontent.com/62635984/85486856-6e9c0880-b606-11ea-9c61-e55a34224c3f.png)
 
 <h4>LoginActivity.java</h4> 
@@ -735,10 +737,13 @@ Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).
 
 <h1>프로필</h1>
 
-메인 화면에서 톱니바퀴 모양을 클릭하면 프로필 화면으로 전환 된다 . 프로필은  
-· 책상 이미지 등록하는 기능 
-· 로그아웃 기능  
-· 회원 탈퇴 기능이 있다. 
+메인 화면에서 톱니바퀴 모양을 클릭하면 프로필 화면으로 전환 된다 .  
+· 책상 이미지 등록하는 기능이다. 
+· 로그아웃 기능이다.  
+· 회원 탈퇴 기능이다. 
+
+
+![프프로필](https://user-images.githubusercontent.com/62635984/85492972-043c9580-b611-11ea-870f-496f5e909579.png)
 
 
 책상 이미지 등록은 책상 사진을 5장을 찍어서 등록 해야한다. 사진을 5장 등록해야지 사진등록이 완료가 된다, 사진을 촬영하면 Firebase Storage에 저장 된다.  Realtime database에는 사진을 등록할때 size와 position값을 초기화 한다.  로그아웃 기능과 회원탈퇴 기능은 버튼을 클릭한뒤 다시 한번 로그아웃 과 회원탈퇴를 할 것인지 제안한다.
@@ -1711,7 +1716,7 @@ public class AlarmService extends Service {
             }, 1000);
 
             //edit_title과 edit_contents가 비었을시 DB에 삽입 불가
-            if(edit_title.getText().toString().getBytes().length<=0 && edit_contents.getText().toString().getBytes().length<=0)
+            if(edit_title.getText().toString().getBytes().length<=0 || edit_contents.getText().toString().getBytes().length<=0)
             {
 
             }else {
@@ -2100,6 +2105,47 @@ public void dialogSkip(){
     alert.show();
 }
 ~~~
+`alarmOff()`는 alarm을 삭제하는 method이다.
+intent의 'state'값에 'off'를 담아 sendBroadcast하며 alarmManger에 pendingintent를 보내어 RequestCode에 일치하는 Alarm을 삭제한다.
+~~~java
+public void alarmOff(){
+    // AlarmReceiver
+    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+    intent.putExtra("state","off");
+    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reqCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+    alarmManager.cancel(pendingIntent);
+    sendBroadcast(intent);
+    Log.d("ReqTest", reqCode + " 의 pendingintent 알람이 해제되었습니다.");
+}
+~~~
+`checkDaysTotal()`은 사용자가 출석체크를 하였을 때 Database에 출석체크 값을 변경해주는 method이다.
+~~~java
+public void checkDaysTotal(int day){...}
+~~~
+`mediaPause()`와 `mediaRestart()`는 출석체크에서 하나의 출석체크 방법을 클릭하였을 때 잠시 Service에게 Media기능과 Vibrator기능을 일시정지 시키는 기능을 수행한다.
+현재 실행되고있는 Service에게 'state'값을 intent에 담아 전송하여 관리한다.
+~~~java
+sintent = new Intent(context, AlarmService.class);
+
+// media를 pause하기위한 Service호출
+public void mediaPause(){
+    sintent.putExtra("state", "pause");
+    // Oreo(26) 버전 이후부터는 Background 에서 실행을 금지하기 때문에 Foreground 에서 실행해야 함
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        context.startForegroundService(sintent);
+    } else {
+        context.startService(sintent);
+    }
+}
+~~~
+~~~java
+// pause된 media를 restart하기 위한 Service호출
+public void mediaRestart(){
+    sintent.putExtra("state", "restart");
+    ...
+}
+~~~
+> Android Oreo 버전 이상부터는 background실행을 하지못하기 때문에 별도로 ForegroundService로 주고받는다.
 >[AttendanceCheckActivity.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AttendanceCheckActivity.java)
 
 ## Firebase ML Kit를 이용한 출석체크 
@@ -2613,6 +2659,9 @@ public void dialogUpload(){
 MakeYouStudy에서 출석률을 저장하는 역할을 수행한다.
 MakeYouStudy에서는 데이터를 Database에서 불러오기 때문에 데이터를 불러오는 Code를 생략하고 Android의 좋은 OpenSource Chart인 [MPAndroidChart]([https://github.com/PhilJay/MPAndroidChart](https://github.com/PhilJay/MPAndroidChart))위주로 알아보도록 하겠다.
 > MakeYouStudy에서는 Barchart와 PieChart를 사용하였다.
+
+![출석률 그래프](https://user-images.githubusercontent.com/62635984/85493109-41088c80-b611-11ea-994e-11ae1c7188c7.png)
+
 
 build.gradle(Module:**app**) dependency에 다음을 추가한다.
 ~~~java
