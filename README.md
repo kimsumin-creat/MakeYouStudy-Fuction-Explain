@@ -1,3 +1,4 @@
+
 # MakeYouStudy-Fuction-Explain
 # 3. 기능 구현
 ##   각 액티비티 기능 설명
@@ -13,14 +14,15 @@
 |                |다이어리 목록 보기               |list_layout.xml              |
 |                |업데이트된 다이어리 글 보기         |activity_diary_update.xml   |
 |Calendar        |캘린더 생성 및 작성               |acticity_calendar.xml |
-|Attendance       | 출석률 그래프로 보기          |activity_attendance_rate.xml           |
-|               |사물인식통한 출석체크                |activity_image_label.xml|
-|                |글씨를 통한 출석체크 +추가해             |  activity_machine_learning.xml      |
- 
+|Attendance      |Image Matching 출석체크             |  activity_image_matching.xml      | 
+|                |사물인식 출석체크                |activity_image_label.xml|
+|                |Text인식 출석체크              |  activity_machine_learning.xml      |
+|                | 출석률 그래프로 보기          |activity_attendance_rate.xml           |                
+
 <br>
 
 ##  권한 허용 알림 및 로그인 
-## Permission Check
+### Permission Check
 
 Make You Study는 다음의 권한을 허용해 주어야 한다.
 
@@ -109,18 +111,16 @@ private void checkOverlayPermission(){
 
 ![permissionCheck](https://user-images.githubusercontent.com/46085058/85485386-9473de00-b603-11ea-891a-c55566c952d5.png)
 
-<h1>로그인 기능  </h1>
-
-
 <br>
 
+## 로딩 화면
 
-<h1>로딩 화면 </h1>
-
-<h3>Loading.java</h3>
 어플이 실행 되면 가장 먼저 보여지는 화면이다.
 
-· Handler 를 이용해 3초의 딜레이 진행 뒤에야 MainActivity 화면으로 전환 된다.
+#### Loading.java
+
+
+Handler 를 이용해 3초의 딜레이 진행 뒤에야 MainActivity 화면으로 전환 된다.
 
 ```java
 //3초간 화면 delay
@@ -137,26 +137,29 @@ finish();
 ```
 
 
+![loading](https://user-images.githubusercontent.com/50138845/85493659-431f1b00-b612-11ea-8688-b82e57a93f15.gif)
 
 
 
+## 메인 화면
 
-<h1>메인 화면</h1>
+#### MainActivity.java
 
-<h3>MainActivity.java</h3>
-
-로그인을 하면 나오는 화면이다.  로그인에 성공 하면 어플 실행에 필요한 권한을 요청한다.어플의 기능을 한곳에 모아  사용자가 필요로 하는 기능을 선택할 수 있다. 5개의 버튼으로 구성 되어 있다.
-· Calnder 
-· TimeTable
-· Diary
-· Profile
-· AttendanceRate
-
+로그인을 하면 나오는 화면이다.  로그인에 성공 하면 어플 실행에 필요한 권한을 요청한다.<br>
+어플의 기능을 한곳에 모아  사용자가 필요로 하는 기능을 선택할 수 있다. MainActivity는 5개의 버튼으로 구성 되어 있다.
+- Calnder 
+- TimeTable
+- Diary
+- AttendanceRate
+- Profile
+<br>
+순서대로 각 button의 icon image이다.
+![fffff](https://user-images.githubusercontent.com/50138845/85494542-d60c8500-b613-11ea-80b1-c9d4917bbdd4.png)
 <br>
 
-<h3>버튼 이벤트 클릭</h3>
+### 버튼 클릭 Listener
 
-· Button이 클릭 되면 ,해당 Activity로 전환 된다.
+Button이 클릭 되면 ,해당 Activity로 전환 된다.
 ```java
 {
 buttonCalendar.setOnClickListener(this);
@@ -186,7 +189,7 @@ startActivity(new Intent(getApplicationContext(), AttendanceRateActivity.class))
 ```
 <br>
 
-· 어플 내 있는 기능 수행에 앞서 권한을 요청 한다.
+ 어플 내 있는 기능 수행에 앞서 권한을 요청 한다.
 ```java
 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
 checkPermission();
@@ -267,7 +270,7 @@ finish();
 ```
 <br>
 
-· 로그인이 되어 있어야 어플사용이 가능 하다.  로그인 되어 있지 않으면 로그인 화면으로 전환한다.
+로그인이 되어 있어야 어플사용이 가능 하다.  로그인 되어 있지 않으면 로그인 화면으로 전환한다.<br>
   firebaseAuth.getCurrenter는  현재 로그인 되어있는 사용자를 의미 한다.
 ```java
 // 유저가 로그인하지 않은 상태라면 LoginActivity 실행
@@ -283,30 +286,58 @@ FirebaseUser user = firebaseAuth.getCurrentUser();
 ```
 <br>
 
-전체코드 보기 [MainActivity.java ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/MainActivity.java)
+## Random wise saying
+
+### MainActivity에 랜덤으로 명언띄우기
+
+![명명언](https://user-images.githubusercontent.com/62635984/85487460-9049bf80-b607-11ea-857c-45234c4a0348.png)
+
+#### MainActivity.java
+MainActivity에 여러가지 명언 중 하나의 명언을 띄워줌으로써 공부에 대한 의지를 올린다.
+
+배열에 명언을 적어놓은 image를 넣어주고, 랜덤값을 배열 값에 넣어 랜덤으로 하나의 배열을 res변수에 넣어준다.
+~~~java
+int index = (int) (Math.random() * 10);  
+int res = ran[index];  
+  
+public static final int ran[]= {  
+    R.drawable.good1, R.drawable.good2, R.drawable.good3,  
+    R.drawable.good4, R.drawable.good5, R.drawable.good6,  
+    R.drawable.good7, R.drawable.good8, R.drawable.good9, R.drawable.good10  
+};
+
+private ImageView imageViewGood;
+~~~
+ImageView에 res변수에 넣어준 배열에 해당하는 image를 띄워준다.
+~~~java
+imageViewGood = (ImageView)findViewById(R.id.good);  
+imageViewGood.setImageResource(res);
+~~~
+<br>
+
+> [MainActivity.java 전체코드 보기 ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/MainActivity.java)
 
 <br>
 
-<h1>로그인</h1>
+## 로그인
 
 ![로로그인](https://user-images.githubusercontent.com/62635984/85486856-6e9c0880-b606-11ea-9c61-e55a34224c3f.png)
 
-<h4>LoginActivity.java</h4> 
-
- 맨 처음 어플을 실행 하였을때, 로그인이 되어 있지 않으면 로그인 화면으로 전환 된다.  로그인 방법은 3가지가 있다.3가지 방법은 화면 전환 없이 진행 된다.
- · 회원가입한 계정으로  로그인
- · 구글계정으로 로그인
- · 페이스북계정으로  로그인
+ 맨 처음 어플을 실행 하였을때, 로그인이 되어 있지 않으면 로그인 화면으로 전환 된다.  <br>
+ 로그인 방법은 3가지가 있다. 3가지 방법은 화면 전환 없이 진행 된다.
+ - 회원가입한 계정으로  로그인
+ - 구글계정으로 로그인
+ -  페이스북계정으로  로그인
  
- 계정이 없거나 , 계정이 있지만 비밀번호를 분실하였을 때   버튼을 클릭 하면 화면이 전환되고 이름에 맞게  기능을 수행 할 수 있다.
-  · 회원가입
-  · 비밀번호 찾기
+ 계정이 없거나, 계정이 있지만 비밀번호를 분실하였을 때 버튼을 클릭 하면 화면이 전환되고 이름에 맞게  기능을 수행 할 수 있다.
+  - 회원가입
+  - 비밀번호 찾기
    
 <br>
 
-<h4>버튼 이벤트 클릭</h4>
+### 로그인 방식
 
-
+#### LoginActivity.java 
 
 회원가입한 계정으로 로그인 
 ```java
@@ -448,7 +479,7 @@ public void onComplete(@NonNull Task<Void> task) {
 ```
 <br>
 
-페이스북계정으로 로그인
+페이스북 계정으로 로그인
 ```java 
 //페이스북 로그인을 진행할때 로그인의 응답을 처리할 콜백관리자를 선언한다.
 
@@ -581,14 +612,15 @@ bt_find.setOnClickListener(new View.OnClickListener() {
 
 <br>
 
-전체 코드 보기 [LoginActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/LoginActivity.java)
+ >[LoginActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/LoginActivity.java)
 
 
 <br>
 
-<h1>비밀번호 찾기</h1>
+## 비밀번호 찾기
+#### FindActivity.java
 
-비밀번호 찾기 기능 사전에 회원가입한 계정의 비밀번호를 분실 하였을 때 , 사용 하능 기능이다.
+비밀번호 찾기 기능 사전에 회원가입한 계정의 비밀번호를 분실 하였을 때, 사용하는 기능이다.
 
 
 
@@ -625,17 +657,18 @@ Toast.makeText(FindActivity.this, "이메일 보내기 실패.", Toast.LENGTH_SH
 
 
 
+> [FindActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/FindActivity.java)
+
 <br>
 
-코드 전체 보기 [FindActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/FindActivity.java)
-
-<h1>회원 가입</h1>
-
-
-회원가입 기능은 구글 계정과 ,페이스북 계정으로 로그인 못하는 상황에서도  사용 할 수 있는 기능이다.
-이메일과 비밀번호를 작성한 뒤 유효성을 체크하고 오류가 없으면 회원가입이 진행된다. 회원 가입에 성공하면 바로 로그인되며, 메인 화면으로 전환 된다.
-
+## 회원 가입
 <h4>SignUpActivity.java</h4>
+
+회원가입 기능은 구글 계정과 ,페이스북 계정으로 로그인 못하는 상황에서도  사용할 수 있는 기능이다.<br>
+이메일과 비밀번호를 작성한 뒤 유효성을 체크하고 오류가 없으면 회원가입이 진행된다. <br>
+회원 가입에 성공하면 바로 로그인되며, 메인 화면으로 전환 된다.
+
+
 
 
 
@@ -729,28 +762,42 @@ Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).
 ```
 <br>
 
-전체 코드 보기 [SignUpActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/SignUpActivity.java)
+> [SignUpActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/SignUpActivity.java)
 
 
 <br>
 
 
-<h1>프로필</h1>
+## 프로필 (설정)
+
 
 메인 화면에서 톱니바퀴 모양을 클릭하면 프로필 화면으로 전환 된다 .  
-· 책상 이미지 등록하는 기능이다. 
-· 로그아웃 기능이다.  
-· 회원 탈퇴 기능이다. 
+- 책상 이미지 등록하는 기능이다. 
+- 로그아웃 기능이다.  
+- 회원 탈퇴 기능이다. 
+
+책상 이미지를 등록하기 위해 Firebase Storage를 사용하였다.
+Firebase Storage를 사용하기위해 아래와 같이 bulid.gradle (:app)에 추가하여야 한다.
+#### bulid.gradle (:app)
+~~~java
+implementation 'com.google.firebase:firebase-storage:17.0.0'  
+implementation 'com.firebaseui:firebase-ui-storage:6.2.1'
+~~~
+>[Firebase Storage 설명 바로가기 ](https://firebase.google.com/docs/storage/android/start)
+
+![프로필 책상](https://user-images.githubusercontent.com/50138845/85499599-e1b07980-b61c-11ea-9823-4d9dd17bba41.jpg)
 
 
-![프프로필](https://user-images.githubusercontent.com/62635984/85492972-043c9580-b611-11ea-870f-496f5e909579.png)
 
 
-책상 이미지 등록은 책상 사진을 5장을 찍어서 등록 해야한다. 사진을 5장 등록해야지 사진등록이 완료가 된다, 사진을 촬영하면 Firebase Storage에 저장 된다.  Realtime database에는 사진을 등록할때 size와 position값을 초기화 한다.  로그아웃 기능과 회원탈퇴 기능은 버튼을 클릭한뒤 다시 한번 로그아웃 과 회원탈퇴를 할 것인지 제안한다.
 
-<h4>책상 이미지 등록</h4>
-
-
+### 책상 이미지 등록
+사진을 촬영하면 Firebase Storage에 저장 된다. 책상 이미지 등록은 책상 사진을 5장을 찍어서 등록 해야한다.<br>
+5장을 모두 등록하면 위의 사진 처럼 빨간불에서 초록불로 변경된다.
+Realtime database에는 사진을 처음 등록할때 size와 position값을 초기화 하고 그 이후에 등록할 때는 사진의 개수만큼 count가 증가한다. <br>
+또한 position의 값으로 사진을 저장한다.<br>
+로그아웃 기능과 회원탈퇴 기능은 버튼을 클릭한뒤 다시 한번 로그아웃과 회원탈퇴를 할 것인지 물어본다.
+#### ProfileActivity.java
 ```java
 //사진 찍기 리스너
 takeapicture.setOnClickListener(new View.OnClickListener() {  
@@ -842,10 +889,11 @@ if(position > 3){ position = 0; } else{ position++; }
 }  
 }
 ```
+>[Firebase Storage Upload 설명 바로가기](https://firebase.google.com/docs/storage/android/upload-files)
 
 <br>
 
-<h4>로그아웃 </h4>
+### 로그아웃 
 
 
 ```java  
@@ -885,7 +933,7 @@ bui.show();
 ```
 <BR>
 
-<H4>회원 탈퇴</H4>
+### 회원 탈퇴
 
 ```java
 //회원탈퇴 리스너  
@@ -924,11 +972,11 @@ mdatabase.child("users").child(cu).setValue(null);
 ```
 <br>
 
-전체 코드 보기 [ProfileActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/ProfileActivity.java)
+>[ProfileActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/ProfileActivity.java)
 
 <br>
 
-<H1>userinfo.class </h1>
+#### userinfo.java
 
  한개의 데이터가 아닌 여러개의 데이터 저장을 위해서 , 클래스는 선언 하였다.
 ```java 
@@ -961,31 +1009,8 @@ this.profile = profile;
 
 }
 ```
-## Random wise saying
-### MainActivity에 랜덤으로 명언띄우기
 
-![명명언](https://user-images.githubusercontent.com/62635984/85487460-9049bf80-b607-11ea-857c-45234c4a0348.png)
 
-MainActivity에 여러가지 명언 중 하나의 명언을 띄워줌으로써 공부에 대한 의지를 올린다.
-
-배열에 명언을 적어놓은 image를 넣어주고, 랜덤값을 배열 값에 넣어 랜덤으로 하나의 배열을 res변수에 넣어준다.
-~~~java
-int index = (int) (Math.random() * 10);  
-int res = ran[index];  
-  
-public static final int ran[]= {  
-    R.drawable.good1, R.drawable.good2, R.drawable.good3,  
-    R.drawable.good4, R.drawable.good5, R.drawable.good6,  
-    R.drawable.good7, R.drawable.good8, R.drawable.good9, R.drawable.good10  
-};
-
-private ImageView imageViewGood;
-~~~
-ImageView에 res변수에 넣어준 배열에 해당하는 image를 띄워준다.
-~~~java
-imageViewGood = (ImageView)findViewById(R.id.good);  
-imageViewGood.setImageResource(res);
-~~~
 ##   Calendar
 Calendar기능은 자신의 한달 일정을 확인 할 수 있고 일정에 따라 공부계획 수정이 가능하도록 도와준다.
 
@@ -997,6 +1022,7 @@ Calendar기능은 자신의 한달 일정을 확인 할 수 있고 일정에 따
 ![calendar custom](https://user-images.githubusercontent.com/62635984/85451749-2c0e0800-b5d5-11ea-8ccb-5ce39652ea10.JPG)
 
 #### activity_Calendar.xml 
+
  Custom Calendar를 만들기위해 materialcalendarview를  가져온다.
 
 ~~~java
@@ -1187,6 +1213,8 @@ private int[] splitDate(String date){
     return result_date;
 }
 ~~~
+
+>[CalendarActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/CalendarActivity.java)
 ## Timetable
 
 사용자가 시간표를 추가하여 설정된 시간에 진동과 벨소리가 작동되며 알람이 울리도록하는 기능이다.
@@ -1199,7 +1227,7 @@ private int[] splitDate(String date){
 
 TimeTable은 (링크)TimeTableView, TimeTableActivity, EditActivity, AlarmReceiver, AlarmService 로 나눠서 설명할 것이다.
 
-## TimeTableView
+### TimeTableView
 TimeTableView를 사용하기에 앞서 build.gradle(Module:**project**) 파일에 다음을 추가한다.
 ~~~java
 allprojects {
@@ -1570,7 +1598,7 @@ public void onReceive(Context context, Intent intent) {
     }
 }
 ~~~
-##  AlarmService.Java
+###  AlarmService.Java
 정해진 시간에 알람이 울렸을 때 Service를 통하여 Vibrator와 Media를 재생할 수 있도록 해준다.
 
 **AlarmService.java 생성**
@@ -1682,19 +1710,30 @@ public class AlarmService extends Service {
 }
 ~~~
 > 참고자료 : [`MediaPlayer()`]([https://developer.android.com/guide/topics/media/mediaplayer?hl=ko](https://developer.android.com/guide/topics/media/mediaplayer?hl=ko)), [`Vibrator()`]([https://developer88.tistory.com/103](https://developer88.tistory.com/103)), [`NotificationChannel`]([https://developer.android.com/training/notify-user/channels?hl=ko](https://developer.android.com/training/notify-user/channels?hl=ko))
+
 ## Diary
-## 다이어리
+
 
  다이어리 기능은 자신의 하루 일과를 적으면서 마무리 할 수 있게 도와주는 기능이다.
  목록보기 칸에서는 자신의 작성한 일기의 수정 및 삭제를 할 수 있다.
  연필 모양 버튼을 클릭 시, 다이어리를 작성할 수 있는 화면이 나오고 제목과 내용을 작성하면 저장버튼이 실행될 수 있게 변한다. 내용을 입력하고 저장버튼을 누르면 눈 모양의 버튼을 클릭하면 자신이 적었던 목록들을 확인할 수 있다.
   - 다이어리 작성칸에서 글을 작성하고 저장하면 목록보기 창에서 본인이 적었던 날짜와 시간과 함께 확인할 수 있다.
   -  아래 사진은 다이어리 실행 화면이다.
+ <br>
  ![image](https://user-images.githubusercontent.com/62636101/85469611-db080f00-b5e8-11ea-9728-943e5b9d7a5b.png)
+ 
+ <br>
+ 
+ 다이어리 디자인 구성을 위해 아래와 같이 build.gradle (:app)에 추가해준다.
+~~~java
+implementation 'com.android.support:design:29.0.0'
+~~~
 
-##  다이어리 작성 , 저장, 목록보기
+<br>
 
-### DiaryActivity.java
+### 다이어리 작성 , 저장, 목록보기
+
+#### DiaryActivity.java
  다이어리에 글을 작성하고 저장버튼을 누르면 파이어베이스에 저장되면서, 내용을 수정 및 삭제할 수 있는 Activity이다. 
 작성 칸에는 제목을 적을 수 있는 칸, 내용을 적을 수 있는 칸 그리고 저장 버튼이 있다.
 
@@ -1841,7 +1880,9 @@ public static void deleteDB(String date) {
 ~~~
 <br>
 
-## 목록보기에서의 다이어리 수정 
+>[DiaryActivity.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/DiaryActivity.java)
+
+### 목록보기에서의 다이어리 수정 
 ***Diary_Update.java***
 본인이 작성했던 일기들을 확인할 수 있는 목록창이 있다. 작성했던 리스트 중 한개를 클릭하면 내용을 수정할 수 있는 창이 나온다. 여기에서는 저장, 돌아가기 두 가지의 버튼이 있다.
 
@@ -1868,7 +1909,12 @@ btn2.setOnClickListener(new View.OnClickListener() {
     }
 });
 ~~~
-## 다이어리 페이지 변환
+
+>[Diary_Update.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/Diary_Update.java)
+
+<br>
+
+### 다이어리 페이지 변환
 ***Tab_pager_Adapter.java***
 
 작성창과 목록보기창을 페이지변환을 통해서 볼 수 있다.
@@ -1886,12 +1932,10 @@ public Fragment getItem(int position) {
    }
 }
 ~~~
-## 디자인 구성을 위한 build.gradle 추가
-~~~java
-// Diary  
-implementation 'com.android.support:design:29.0.0'
-~~~
-## Attendance Check & Attendance Rate
+>[Tab_pager_Adapter.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/Tab_pager_Adapter.java)
+
+<br>
+
 
 ## Attendance Check
 
@@ -1902,15 +1946,14 @@ Time Table에서 시간표를 설정한 후 지정한 시간에 알람이 울리
 - firebase ML Kit를 이용한 Text 인식 
 - OpenCV를 이용한 Color Histogram Image Matching
 
-![출출석체크](https://user-images.githubusercontent.com/62635984/85488203-df442480-b608-11ea-8af9-42f7d52a20fd.png)
-
+![출석체크](https://user-images.githubusercontent.com/50138845/85498439-a7de7380-b61a-11ea-88e8-e990d0cf33b4.jpg)
 
 우선, firebase ML Kit와 openCV를 사용하기 위해 (2번)내용을 수행해야 한다.
 
 
-## 출석체크 방법 선택 
+### 출석체크 방법 선택 
 
-**AttendanceCheckActivity.java**
+#### AttendanceCheckActivity.java
 
 알람이 울릴 때, 어떤 방식으로 출석체크를 할지 선택하면서, 선택한 방식으로 출석체크 후 출석과 결석을 판단해주는 Activity이다.<br>
 총 네 가지의 button이 존재한다.
@@ -2147,6 +2190,8 @@ public void mediaRestart(){
 ~~~
 > Android Oreo 버전 이상부터는 background실행을 하지못하기 때문에 별도로 ForegroundService로 주고받는다.
 >[AttendanceCheckActivity.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AttendanceCheckActivity.java)
+
+<br>
 
 ## Firebase ML Kit를 이용한 출석체크 
 
@@ -2471,6 +2516,8 @@ public void check(String text, String data){
 ~~~
 >[TextRecognitionActivity.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/TextRecognitionActivity.java)
 
+<br>
+
 ## OpenCV를 이용한 출석체크
 
 OpenCV를 이용한 출석체크를 하기위해서는, 미리 등록된 5장의 책상 사진이 존재해야한다.<br>
@@ -2655,8 +2702,10 @@ public void dialogUpload(){
 ~~~
 >[ImageMatchingActivity.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/c3e8c9d4b3280c0fae93a51494ed29fe4fca873c/app/src/main/java/com/android/MakeYouStudy/ImageMatchingActivity.java)
 
+<br>
+
 ## Attendance Rate
-MakeYouStudy에서 출석률을 저장하는 역할을 수행한다.
+MakeYouStudy에서 출석률을 저장하는 역할을 수행한다.<br>
 MakeYouStudy에서는 데이터를 Database에서 불러오기 때문에 데이터를 불러오는 Code를 생략하고 Android의 좋은 OpenSource Chart인 [MPAndroidChart]([https://github.com/PhilJay/MPAndroidChart](https://github.com/PhilJay/MPAndroidChart))위주로 알아보도록 하겠다.
 > MakeYouStudy에서는 Barchart와 PieChart를 사용하였다.
 
