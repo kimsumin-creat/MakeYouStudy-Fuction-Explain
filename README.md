@@ -113,6 +113,10 @@ private void checkOverlayPermission(){
 
 <br>
 
+![AndroidManifest.xml 전체 코드 보기(https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/AndroidManifest.xml)
+
+<br>
+
 ## 로딩 화면
 
 어플이 실행 되면 가장 먼저 보여지는 화면이다.
