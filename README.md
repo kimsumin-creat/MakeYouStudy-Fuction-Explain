@@ -1336,7 +1336,7 @@ private int[] splitDate(String date){
 
 ![타타임테이블](https://user-images.githubusercontent.com/62635984/85487805-3ac1e280-b608-11ea-922c-d3fa24ae73e8.png)
 
-TimeTable은 (링크)TimeTableView, TimeTableActivity, EditActivity, AlarmReceiver, AlarmService 로 나눠서 설명할 것이다.
+TimeTable은 TimeTableView, TimeTableActivity, EditActivity, AlarmReceiver, AlarmService 로 나눠서 설명할 것이다.
 
 ### TimeTableView
 TimeTableView를 사용하기에 앞서 build.gradle(Module:**project**) 파일에 다음을 추가한다.
@@ -1467,23 +1467,23 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 > ![Json형식](https://user-images.githubusercontent.com/46085058/85429692-12ab9280-b5ba-11ea-882b-b958e299604f.PNG)
 
 #### Method
-출석률을 초기화해주는 메서드(링크)
+출석률을 초기화해주는 메서드
 ~~~java
 public void dayCheckZero(){...}
 ~~~
-출석체크의 이미지매칭을 위한 등록된 사진갯수를 확인하는 메서드(링크)
+출석체크의 이미지매칭을 위한 등록된 사진갯수를 확인하는 메서드
 
 ~~~java
 public void checkPictureCount(){...}
 ~~~
-JsonParsing 후 알람을 등록하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) (링크)
+JsonParsing 후 알람을 등록하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) 
 ~~~java
 public void AddAlarm(String json){...}
 ~~~
 > JsonParse 참고 : [https://jang8584.tistory.com/185](https://jang8584.tistory.com/185)
 > 
 
-알람을 삭제하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) (링크)
+알람을 삭제하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) 
 ~~~java
 public void alarmOff(int tmpcount){...}
 ~~~
@@ -1771,7 +1771,7 @@ public class AlarmService extends Service {
                 String channelId =  createNotificationChannel();
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
                 Notification notification = builder.setOngoing(true)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.mipmap.ic_launcher) // 아이콘을 설정 
                         .setContentIntent(pendingIntent) 
                         .build();
                 startForeground(1, notification);
@@ -2941,7 +2941,7 @@ yRAxis.setDrawGridLines(false);
 yLAxis.setDrawLabels(false);  
 yLAxis.setDrawAxisLine(false);  
 yLAxis.setAxisMaximum(100f);  // Y축의 최댓값을 정해준다.
-  
+yLAxis.setAxisMinimum(0f);  // Y축의 최솟값을 정해준다.
 // X축 설정  
 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // x값 표시 위치  
 xAxis.setDrawGridLines(false); // x축 GridLinexAxis.setDrawAxisLine(false);  
