@@ -1626,11 +1626,11 @@ TimeTableActivity로 생성, 수정 및 삭제를 구별하여 intent를 전송�
 
 **AlarmReceiver.Java 생성**
 <br>AlarmReceiver는 Broadcast를 수신하기 위해서 새로운 Java파일을 생성할 때 BroadcastReceiver를 extends해야 한다.
-![Creat_AlarmReceiver](https://user-images.githubusercontent.com/46085058/85443237-fb75a080-b5cb-11ea-8766-094b58e3bd87.png)
-![extends_AlarmReceiver](https://user-images.githubusercontent.com/46085058/85443431-38da2e00-b5cc-11ea-98a4-b99fe66d631a.png)
-BroadcastReceiver를 extends하였기 때문에 onReceive() 를 선언 해주어야한다.
+![Creat_AlarmReceiver](https://user-images.githubusercontent.com/46085058/85443237-fb75a080-b5cb-11ea-8766-094b58e3bd87.png)<br>
+![extends_AlarmReceiver](https://user-images.githubusercontent.com/46085058/85443431-38da2e00-b5cc-11ea-98a4-b99fe66d631a.png)<br>
+BroadcastReceiver를 extends하였기 때문에 onReceive() 를 선언 해주어야한다.<br>
 ![onReceiver_AlarmReceiver](https://user-images.githubusercontent.com/46085058/85444017-dcc3d980-b5cc-11ea-8a02-d19132dd9307.png)
-intent의 state값을 받아오고 "off", "on"은 알람을 끄거나 켤 때 사용하는 state이고  "reset"은  media를 조절하기 위해 별도로 만든 state이다.
+<br>intent의 state값을 받아오고 "off", "on"은 알람을 끄거나 켤 때 사용하는 state이고  "reset"은  media를 조절하기 위해 별도로 만든 state이다.
 weeks는 해당 요일을 구별하여 오늘의 요일이 맞지않으면 알람을 실행하지 않는다.
 각 state를 구별한 후에 Service를 호출한다. (Android Oreo 이상 부터는 foreground로 실행하여야 한다.)
 ~~~java
@@ -1837,9 +1837,9 @@ public class AlarmService extends Service {
     }
 }
 ~~~
-> 참고자료 : [`MediaPlayer()`]([https://developer.android.com/guide/topics/media/mediaplayer?hl=ko](https://developer.android.com/guide/topics/media/mediaplayer?hl=ko)), [`Vibrator()`]([https://developer88.tistory.com/103](https://developer88.tistory.com/103)), [`NotificationChannel`]([https://developer.android.com/training/notify-user/channels?hl=ko](https://developer.android.com/training/notify-user/channels?hl=ko))
+> 참고자료 : [`MediaPlayer()`](https://developer.android.com/guide/topics/media/mediaplayer?hl=ko), [`Vibrator()`](https://developer88.tistory.com/103), [`NotificationChannel`](https://developer.android.com/training/notify-user/channels?hl=ko)
 
-[AlarmService.java 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmService.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmService.java)) 
+[AlarmService.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/a4176e38037ec19f28e1f9cb226c5f97a2e8c902/app/src/main/java/com/android/MakeYouStudy/AlarmService.java#L1)
 
 ## Diary
 
@@ -2984,4 +2984,4 @@ bardataset.setColors(weekColor);
 barChart.setData(barData);
 ~~~
 
-[AttendanceRateActivity.Java 코드 보러 가기]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AttendanceRateActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AttendanceRateActivity.java))
+[AttendanceRateActivity.Java 코드 보러 가기](https://github.com/JJinTae/MakeYouStudy/blob/85cdaeeeb894633e4e278c3a546ef02ca255396f/app/src/main/java/com/android/MakeYouStudy/AttendanceRateActivity.java#L1)
