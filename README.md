@@ -1100,37 +1100,37 @@ public void Dialog () {
 
  한개의 데이터가 아닌 여러개의 데이터 저장을 위해서 , 클래스는 선언 하였다.
 ```java 
+public class userinfo {
+    private String userName;
+    private String profile;
+    private String usercal;
+    private String usertable;
+    private String usercheck;
+    private String userdiary;
+    public userinfo(String userName, String profile) {
+        this.userName = userName;
+        this.profile = profile;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    public String getProfile() {
+        return profile;
+    }
+    public void setProfile(String profile) {
+        this.profile = profile;
 
-public class userinfo {  
-private String userName;  
-pivate String profile;  
-private String usercal;  
-private String usertable;  
-private String usercheck;  
-private String userdiary;  
-public userinfo(String userName, String profile) {  
-this.userName = userName;  
-this.profile = profile;  
-}  
-public String getUserName() {  
-return userName;  
-}  
-public void setUserName(String userName) {  
-this.userName = userName;  
-}  
-public String getProfile() {  
-return profile;  
-}  
-public void setProfile(String profile) {  
-this.profile = profile;  
-
-}  
+    }
 
 
 }
+
 ```
 
-![userinfo.java 코드 전체 보기 ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/userinfo.java)
+[userinfo.java 코드 전체 보기 ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/userinfo.java)
 
 ##   Calendar
 Calendar기능은 자신의 한달 일정을 확인 할 수 있고 일정에 따라 공부계획 수정이 가능하도록 도와준다.
