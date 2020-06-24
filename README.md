@@ -2078,7 +2078,7 @@ Time Table에서 시간표를 설정한 후 지정한 시간에 알람이 울리
 
 ![출석체크](https://user-images.githubusercontent.com/50138845/85498439-a7de7380-b61a-11ea-88e8-e990d0cf33b4.jpg)
 
-우선, firebase ML Kit와 openCV를 사용하기 위해 (2번)내용을 수행해야 한다.
+우선, firebase ML Kit와 openCV를 사용하기 위해 [필수설치사항](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%ED%95%84%EC%88%98-%EC%84%A4%EC%B9%98-%EC%82%AC%ED%95%AD)을 수행해야 한다.
 
 
 ### 출석체크 방법 선택 
