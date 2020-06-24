@@ -122,20 +122,19 @@ private void checkOverlayPermission(){
 
 Handler 를 이용해 3초의 딜레이 진행 뒤에야 MainActivity 화면으로 전환 된다.
 
-```java
-//3초간 화면 delay
-Handler timer=new Handler();  
-timer.postDelayed(new Runnable() {  
-@Override  
-public void run() {  
-//메인 화면으로 전환 
-Intent intent=new Intent(getApplication(), MainActivity.class);  
-startActivity(intent);  
-finish();  
-}  
-},3000);
-```
-
+ ```java
+Handler timer=new Handler();
+        timer.postDelayed(new Runnable()
+        {
+            @Override
+            public void run() 
+            {
+                Intent intent=new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        },3000);
+````
 
 ![loading](https://user-images.githubusercontent.com/50138845/85493659-431f1b00-b612-11ea-8688-b82e57a93f15.gif)
 
