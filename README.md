@@ -1402,7 +1402,7 @@ TimeTableView의 header속성을 변경할 수 있습니다.
 > ~~~
 
 **TimeTableActivity.Java**
-TimeTableActivity의 주요 기능은 시간표를 표시하고 알람을 등록해주는 역할을 수행한다.
+<br>TimeTableActivity의 주요 기능은 시간표를 표시하고 알람을 등록해주는 역할을 수행한다.
 기존 AlarmManger에 등록된 알람과의 충돌을 방지하기 위해서 기존의 알람을 모두 삭제한 후 재등록 한다.
 ~~~java
 @Override
@@ -1477,23 +1477,23 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 > ![Json형식](https://user-images.githubusercontent.com/46085058/85429692-12ab9280-b5ba-11ea-882b-b958e299604f.PNG)
 
 #### Method
-출석률을 초기화해주는 메서드
+출석률을 초기화해주는 메서드 [`dayCheckZero()`](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java#L337)
 ~~~java
 public void dayCheckZero(){...}
 ~~~
-출석체크의 이미지매칭을 위한 등록된 사진갯수를 확인하는 메서드
+출석체크의 이미지매칭을 위한 등록된 사진갯수를 확인하는 메서드 [`checkPictureCount()`](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java#L299)
 
 ~~~java
 public void checkPictureCount(){...}
 ~~~
-JsonParsing 후 알람을 등록하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) 
+JsonParsing 후 알람을 등록하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) [`AddAlarm()`](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java#L212)
 ~~~java
 public void AddAlarm(String json){...}
 ~~~
 > JsonParse 참고 : [https://jang8584.tistory.com/185](https://jang8584.tistory.com/185)
 > 
 
-알람을 삭제하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) 
+알람을 삭제하는 메서드 ( 알람의 등록과 삭제는 따로 다루도록 한다.) [`alarmOff()`](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java#L354)
 ~~~java
 public void alarmOff(int tmpcount){...}
 ~~~
@@ -1542,7 +1542,7 @@ calendar.set(Calendar.HOUR_OF_DAY, obj4.get("hour").getAsInt()); // 시간 설�
 calendar.set(Calendar.MINUTE, obj4.get("minute").getAsInt());  // 분 설정
 calendar.set(Calendar.SECOND, 0); // 초 설정(되도록이면 Default로 0을 둔다.)
 ~~~
-> obj4.get("...").getAsInt() 는 MakeYouStudy의 시간을 불러오는 예제이다. 원하는 시간대로 설정해주면 된다.
+> obj4.get("...").getAsInt() 는 MakeYouStudy의 시간을 불러오는 [예제](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java#L250)이다. 원하는 시간대로 설정해주면 된다.
 > 
 시간을 설정했으면 알람을 등록 해주어야 한다.  이때 **API**마다 실행 방식이 다르기 때문에 꼭 아래와 같이 작성해 주어야 한다.
 ~~~java
@@ -1561,7 +1561,7 @@ if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
 ~~~
 
 **EditActivity.Java**
-EditActivity의 주요기능은 시간표를 생성, 수정 및 삭제하는 역할을 수행한다.
+<br>EditActivity의 주요기능은 시간표를 생성, 수정 및 삭제하는 역할을 수행한다.
 
 EditActivity는 시간표 생성과 수정을 구분하여야 한다. 특히 수정시에는 이미 등록되어있는 시간표의 정보를 불러오는 기능을 수행한다.
 ~~~java
@@ -1604,24 +1604,24 @@ private void inputDataProcessing(){
 ~~~
 >  [Schedule.set...()](https://github.com/tlaabs/TimetableView#add-schdule)
 #### Method
-EditActivity View object 초기화
+EditActivity View object 초기화[`init()`](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/EditActivity.java#L56)
 ~~~java
 public void init(){...}
 ~~~
-EditActivity View Listener 초기화
+EditActivity View Listener 초기화[`initView()`](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/EditActivity.java#L88)
 ~~~java
 private void initView(){...}
 ~~~
-TimeTableActivity로 생성, 수정 및 삭제를 구별하여 intent를 전송하는 onClick listener()
+TimeTableActivity로 생성, 수정 및 삭제를 구별하여 intent를 전송하는 [`onClick()`](https://github.com/JJinTae/MakeYouStudy/blob/d985189ef614f284db09d27648f8d6abfebd491f/app/src/main/java/com/android/MakeYouStudy/EditActivity.java#L137)
 ~~~java
 @Override public void onClick(View v) {...}
 ~~~
 
 **AlarmReceiver.Java**
-AlarmReceiver는 Alarm Broadcast Message를 수신하는 역할을 수행한다.
+<br>AlarmReceiver는 Alarm Broadcast Message를 수신하는 역할을 수행한다.
 
 **AlarmReceiver.Java 생성**
-AlarmReceiver는 Broadcast를 수신하기 위해서 새로운 Java파일을 생성할 때 BroadcastReceiver를 extends해야 한다.
+<br>AlarmReceiver는 Broadcast를 수신하기 위해서 새로운 Java파일을 생성할 때 BroadcastReceiver를 extends해야 한다.
 ![Creat_AlarmReceiver](https://user-images.githubusercontent.com/46085058/85443237-fb75a080-b5cb-11ea-8766-094b58e3bd87.png)
 ![extends_AlarmReceiver](https://user-images.githubusercontent.com/46085058/85443431-38da2e00-b5cc-11ea-98a4-b99fe66d631a.png)
 BroadcastReceiver를 extends하였기 때문에 onReceive() 를 선언 해주어야한다.
@@ -1723,7 +1723,7 @@ public void onReceive(Context context, Intent intent) {
 정해진 시간에 알람이 울렸을 때 Service를 통하여 Vibrator와 Media를 재생할 수 있도록 해준다.
 
 **AlarmService.java 생성**
-AlarmService는 새로운 Java파일을 생성할 때 Service를 extends해야 한다.
+<br>AlarmService는 새로운 Java파일을 생성할 때 Service를 extends해야 한다.
 ![Create_Service](https://user-images.githubusercontent.com/46085058/85454120-8d36db00-b5d7-11ea-80e9-3dc31e2bb292.png)
 
 처음 Service를 extends한 Java파일을 생성하게되면 오류가 뜨는데 아래와 같이 `onBind()`와 `onStartCommand()` 를 선언해주어야 한다.
