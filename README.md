@@ -646,7 +646,7 @@ imageViewGood.setImageResource(res);
 
 <br>
 
- >[LoginActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/LoginActivity.java)
+ [LoginActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/LoginActivity.java)
 
 
 <br>
@@ -690,7 +690,7 @@ imageViewGood.setImageResource(res);
 
 
 
-> [FindActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/FindActivity.java)
+[FindActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/FindActivity.java)
 
 <br>
 
@@ -817,7 +817,7 @@ imageViewGood.setImageResource(res);
 ```
 <br>
 
-> [SignUpActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/SignUpActivity.java)
+[SignUpActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/SignUpActivity.java)
 
 
 <br>
@@ -1004,7 +1004,7 @@ Realtime database에는 사진을 처음 등록할때 size와 position값을 초
 }
 
 ```
->[Firebase Storage Upload 설명 바로가기](https://firebase.google.com/docs/storage/android/upload-files)
+[Firebase Storage Upload 설명 바로가기](https://firebase.google.com/docs/storage/android/upload-files)
 
 <br>
 
@@ -1092,7 +1092,7 @@ public void Dialog () {
 ```
 <br>
 
->[ProfileActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/ProfileActivity.java)
+[ProfileActivity.java 전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/ProfileActivity.java)
 
 <br>
 
