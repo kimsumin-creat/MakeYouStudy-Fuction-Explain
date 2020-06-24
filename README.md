@@ -120,22 +120,22 @@ private void checkOverlayPermission(){
 #### Loading.java
 
 
+
 Handler 를 이용해 3초의 딜레이 진행 뒤에야 MainActivity 화면으로 전환 된다.
 
-```java
-//3초간 화면 delay
-Handler timer=new Handler();  
-timer.postDelayed(new Runnable() {  
-@Override  
-public void run() {  
-//메인 화면으로 전환 
-Intent intent=new Intent(getApplication(), MainActivity.class);  
-startActivity(intent);  
-finish();  
-}  
-},3000);
-```
-
+ ```java
+Handler timer=new Handler();
+        timer.postDelayed(new Runnable()
+        {
+            @Override
+            public void run() 
+            {
+                Intent intent=new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        },3000);
+````
 
 ![loading](https://user-images.githubusercontent.com/50138845/85493659-431f1b00-b612-11ea-8688-b82e57a93f15.gif)
 
@@ -160,129 +160,143 @@ finish();
 ### 버튼 클릭 Listener
 
 Button이 클릭 되면 ,해당 Activity로 전환 된다.
-```java
-{
-buttonCalendar.setOnClickListener(this);
-buttonTimeTable.setOnClickListener(this);
-buttonDiary.setOnClickListener(this);
-buttonProfile.setOnClickListener(this);
-buttonAttendanceRate.setOnClickListener(this);
-}
-@Override
-public void onClick(View view) {
-if(view == buttonCalendar){
-startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
-}
-if(view == buttonTimeTable){
-startActivity(new Intent(getApplicationContext(), TimeTableActivity.class));
-}
-if(view == buttonDiary){
-startActivity(new Intent(getApplicationContext(), DiaryActivity.class));
-}
-if(view == buttonProfile){
-startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-}
-if(view == buttonAttendanceRate){
-startActivity(new Intent(getApplicationContext(), AttendanceRateActivity.class));
-}
-}
-```
+   ```java
+        {
+    buttonCalendar.setOnClickListener(this);
+    buttonTimeTable.setOnClickListener(this);
+    buttonDiary.setOnClickListener(this);
+    buttonProfile.setOnClickListener(this);
+    buttonAttendanceRate.setOnClickListener(this);
+    }
+    @Override
+    public void onClick(View view)
+    {
+        if(view == buttonCalendar){
+        startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+        }
+        if(view == buttonTimeTable){
+         startActivity(new Intent(getApplicationContext(), TimeTableActivity.class));
+        }
+        if(view == buttonDiary){
+        startActivity(new Intent(getApplicationContext(), DiaryActivity.class));
+        }
+        if(view == buttonProfile){
+        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        }
+        if(view == buttonAttendanceRate){
+        startActivity(new Intent(getApplicationContext(), AttendanceRateActivity.class));
+        }
+    }
+ 
+ 
 <br>
 
+
  어플 내 있는 기능 수행에 앞서 권한을 요청 한다.
-```java
-if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-checkPermission();
-// Android 10 이상부터 사용자가 직접 OverlayPermission을 설정해 줘야함
-if(!Settings.canDrawOverlays(getApplicationContext())){
-checkOverlayPermission();
-}
-}
-@Override
-public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-switch (requestCode){
-case MULTIPLE_PERMISSIONS:{
-if(grantResults.length > 0){
-for (int i = 0; i < permissions.length; i++){
-if(permissions[i].equals(this.permission[i])){
-if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
-showToast_PermissionDeny();
-}
-}
-}
-}else{
-showToast_PermissionDeny();
-}
-return;
-}
-}
 
-super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-}
+ if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            checkPermission();
+            // Android 10 이상부터 사용자가 직접 OverlayPermission을 설정해 줘야함
+            if(!Settings.canDrawOverlays(getApplicationContext())){
+                checkOverlayPermission();
+            }
+        }
+        //initializing views
+        buttonCalendar = (Button)findViewById(R.id.buttonCalendar);
+        buttonTimeTable = (Button)findViewById(R.id.buttonTimeTable);
+        buttonDiary = (Button)findViewById(R.id.buttonDiary);
+        buttonProfile = (Button)findViewById(R.id.buttonProfile);
+        buttonAttendanceRate = (Button)findViewById(R.id.buttonAttendance);
+        imageViewGood = (ImageView)findViewById(R.id.good);
+        imageViewGood.setImageResource(res);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case MULTIPLE_PERMISSIONS:{
+                if(grantResults.length > 0){
+                    for (int i = 0; i < permissions.length; i++){
+                        if(permissions[i].equals(this.permission[i])){
+                            if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
+                                showToast_PermissionDeny();
+                            }
+                        }
+                    }
+                }else{
+                    showToast_PermissionDeny();
+                }
+                return;
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    private boolean checkPermission(){
+        int result;
+        List<String> permissionList = new ArrayList<>();
+        for (String pm : permission){
+            result = ContextCompat.checkSelfPermission(this, pm);
+            if(result != PackageManager.PERMISSION_GRANTED){
+                permissionList.add(pm);
+            }
+        }if(!permissionList.isEmpty()){
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
+    // alarm overlay permission check 알람이 시작될 때 Activity를 띄워줌
+    private void checkOverlayPermission(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("다른 앱 위에 쓰기 권한").setMessage("Make You Study의 알람 화면을 띄우기 위해서 권한을 허용해 주셔야 합니다.");
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try{
+                    Uri uri = Uri.parse("package:" + getPackageName());
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, uri);
 
-private boolean checkPermission(){
-int result;
-List<String> permissionList = new ArrayList<>();
-for (String pm : permission){
-result = ContextCompat.checkSelfPermission(this, pm);
-if(result != PackageManager.PERMISSION_GRANTED){
-permissionList.add(pm);
+                    startActivityForResult(intent, 5469);
+                }catch (Exception e){
+                    Log.d("MainActivity", "" + e);
+                }
+            }
+        });
+        builder.setNegativeButton("종료", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showToast_PermissionDeny();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+    // Permission check notification
+    private void showToast_PermissionDeny() {
+        Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+        finish();
+    }
 }
-}if(!permissionList.isEmpty()){
-ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), MULTIPLE_PERMISSIONS);
-return false;
-}
-return true;
-}
-// alarm overlay permission check 알람이 시작될 때 Activity를 띄워줌
-private void checkOverlayPermission(){
-AlertDialog.Builder builder = new AlertDialog.Builder(this);
-builder.setTitle("백그라운드 재생 권한").setMessage("백그라운드에서 Make You Study의 타임테이블 알람을 울리기 위해서 권한을 허용해 주셔야 합니다.");
-builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-@Override
-public void onClick(DialogInterface dialog, int which) {
-try{
-Uri uri = Uri.parse("package:" + getPackageName());
-Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, uri);
-
-startActivityForResult(intent, 5469);
-}catch (Exception e){
-Log.d("MainActivity", "" + e);
-}
-}
-});
-builder.setNegativeButton("종료", new DialogInterface.OnClickListener() {
-@Override
-public void onClick(DialogInterface dialog, int which) {
-showToast_PermissionDeny();
-}
-});
-AlertDialog alertDialog = builder.create();
-alertDialog.show();
-
-}
-// Permission check notification
-private void showToast_PermissionDeny() {
-Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
-finish();
-}
-}
-```
 <br>
 
 로그인이 되어 있어야 어플사용이 가능 하다.  로그인 되어 있지 않으면 로그인 화면으로 전환한다.<br>
   firebaseAuth.getCurrenter는  현재 로그인 되어있는 사용자를 의미 한다.
 ```java
-// 유저가 로그인하지 않은 상태라면 LoginActivity 실행
-firebaseAuth = FirebaseAuth.getInstance();
-if(firebaseAuth.getCurrentUser() == null) {
-finish();
-startActivity(new Intent(this, LoginActivity.class));
-}
-else{
-FirebaseUser user = firebaseAuth.getCurrentUser();
-}
-}
+ // 유저가 로그인하지 않은 상태라면 LoginActivity 실행
+ firebaseAuth = FirebaseAuth.getInstance();
+ if(firebaseAuth.getCurrentUser() == null)
+        {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        else{
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            //button event
+            buttonCalendar.setOnClickListener(this);
+            buttonTimeTable.setOnClickListener(this);
+            buttonDiary.setOnClickListener(this);
+            buttonProfile.setOnClickListener(this);
+            buttonAttendanceRate.setOnClickListener(this);
+        }
 ```
 <br>
 
@@ -341,244 +355,255 @@ imageViewGood.setImageResource(res);
 
 회원가입한 계정으로 로그인 
 ```java
-{ 
- //회원가입한 계정으로 로그인 
-btn_login = (Button) findViewById(R.id.bt_login);  
-}
-//로그인 버튼 클릭시 파이어베이스 eamil 로그인 시작  
-btn_login.setOnClickListener(new View.OnClickListener() {  
-@Override  
-public void onClick(View v) {  
-email = ed_eamil.getText().toString();  
-password = ed_password.getText().toString();  
-if (isValidEmail() && isValidPasswd()) {  
-loginUser(email, password);  
-}  
-}  
-});  
-//이메일 유효성 검사
-private boolean isValidEmail() {  
-if (email.isEmpty()) {  
-// 이메일 공백  
-Toast.makeText(LoginActivity.this,"이메일이 공백입니다.",Toast.LENGTH_SHORT);  
-return false;  }  
-else {  
-return true;  
-}  
-}  
-// 비밀번호 유효성 검사  
-private boolean isValidPasswd() {  
-if (password.isEmpty()) {  
-// 비밀번호 공백  
-Toast.makeText(LoginActivity.this,"패스워드가 공백입니다.",Toast.LENGTH_SHORT);  
-return false;  
-} else {  
-return true;  
-}  
-} 
-//입력한 이메일 과 비밀번호에 오류가 없다면 createUser() 가 동작합니다.email과 password를 받아와  `createUserWithEmailAndPassword`에 전달하여 신규 계정을 생성합니다. 계정 생성에 성공을 하면 MainAcitivity로 화면이 전환 됩니다. 계정 생성 실패시  메세지를 띄웁니다.
-private void loginUser(String email, String password)  
-{  
-firebaseAuth.signInWithEmailAndPassword(email, password)  
-.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {  
-@Override  
-public void onComplete(@NonNull Task<AuthResult> task) {  
-if (task.isSuccessful()) {  
-// 로그인 성공  
-Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();  
-Intent intent=new Intent(getApplicationContext(),MainActivity.class);  
-startActivity(intent);  
-finish();  
-} else {  
-// 로그인 실패  
-Toast.makeText(LoginActivity.this, "이메일/비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();  
-}  
-}  
-});  
-}  
+ //로그인 버튼 클릭시 파이어베이스 eamil 로그인 시작
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = ed_eamil.getText().toString();
+                password = ed_password.getText().toString();
+                if (isValidEmail() && isValidPasswd()) {
+                    loginUser(email, password);
+                }
+            }
+        });
+    }//이메일 유효성 검사
+    private boolean isValidEmail() {
+        if (email.isEmpty()) {
+            // 이메일 공백
+            Toast.makeText(LoginActivity.this,"이메일이 공백입니다.",Toast.LENGTH_SHORT);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    // 비밀번호 유효성 검사
+    private boolean isValidPasswd() {
+        if (password.isEmpty()) {
+            // 비밀번호 공백
+            Toast.makeText(LoginActivity.this,"패스워드가 공백입니다.",Toast.LENGTH_SHORT);
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //입력한 이메일 과 비밀번호에 오류가 없다면 createUser() 가 동작합니다.email과 password를 받아와  `createUserWithEmailAndPassword`에 전달하여 신규 계정을 생성합니다. 계정 생성에 성공을 하면 MainAcitivity로 화면이 전환 됩니다. 계정 생성 실패시  메세지를 띄웁니다.
+
+    private void loginUser(String email, String password)
+    {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // 로그인 성공
+                            Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // 로그인 실패
+                            Toast.makeText(LoginActivity.this, "이메일/비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 ```
 <Br>
 
 구글계정으로 로그인 
 ```java
-//구글 로그인을 위한 선언  
-private static final int RC_SIGN_IN = 900;  
-private GoogleSignInClient googleSignInClient; 
-private SignInButton buttonGoogle;
-//구글 계정으로 로그인 
-googlbtnimage=(Button)findViewById(R.id.googlbtnimage);
-//구글 로그인 버튼 리스너 
-googlbtnimage.setOnClickListener(new View.OnClickListener() {  
-@Override  
-public void onClick(View v) {  
-//Intent 를 시작하면 로그인 할 Google 계정을 선택하라는 메시지가 표시됩니다.사용자는 요청 된 리소스에 대한 액세스 권한을 부여하라는 메시지가 표시됩니다.
-Intent signInIntent = googleSignInClient.getSignInIntent();  
-startActivityForResult(signInIntent, RC_SIGN_IN);  
-revokeAccess();  
-}  
-});
-//사용자 ID정보를 요청하도록 구글 로그인을 구성 하려면 'DEFAULT_SIGN_IN' 매개 변수를 사용하여 googleSignInOptions을 만들었다. 옵션을 선언한 googleSignInOptions으로 googleSignInClient를 선언 합니다.
-GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)  
-.requestIdToken(getString(R.string.default_web_client_id))  
-.requestEmail()  
-.build();  
-googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-@Override  
-public void onActivityResult(int requestCode, int resultCode, Intent data) {  
-super.onActivityResult(requestCode, resultCode, data);  
-// 구글로그인 버튼 응답  
-if (requestCode == RC_SIGN_IN) {  
-Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);  
-try {  
-// 구글 로그인 성공  
-GoogleSignInAccount account = task.getResult(ApiException.class);  
-firebaseAuthWithGoogle(account);  
-} catch (ApiException e) {  
-}  
-}  
-}//사용자가 정상적으로 로그인하면 GoogleSignInAccount 객체에서 ID 토큰을 가져와서 Firebase 사용자 인증 정보로 교환하고 해당 정보를 사용해 Firebase에 인증합니다.인증에 성공하면 MainAcitivity 화면으로 전환 합니다.
-private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {  
-AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);  
-firebaseAuth.signInWithCredential(credential)  
-.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {  
-@Override  
-public void onComplete(@NonNull Task<AuthResult> task) {  
-if (task.isSuccessful()) {  
-//데이터 저장
-FirebaseUser user = firebaseAuth.getCurrentUser();  
-String cu = firebaseAuth.getUid();  
-String name = user.getDisplayName();  
-String email = user.getEmail();  
-Log.v("알림", "현재로그인한 유저 " + cu);  
-Log.v("알림", "현재로그인한 이메일 " + email);  
-Log.v("알림", "유저 이름 " + name);  
-userinfo userdata = new userinfo(name, email);  
-mDatabase.child("users").child(cu).setValue(userdata);  
-//
-Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();  
-Intent intent=new Intent(getApplicationContext(),MainActivity.class);  
-startActivity(intent);  
-finish();  
-} else {  
-// 로그인 실패  
-Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();  
-}  
-}  
-});  
-}
-//구글 로그아웃  
-private void revokeAccess() {  
-googleSignInClient.revokeAccess()  
-.addOnCompleteListener(this, new OnCompleteListener<Void>() {  
-@Override  
-public void onComplete(@NonNull Task<Void> task) {  
-// ...;  
-}  
-});  
-}
+    private FirebaseAuth firebaseAuth;
+    privategooglbtnimage;
+    private static final int RC_SIGN_IN = 900;
+    private GoogleSignInClient googleSignInClient;
+    private SignInButton buttonGoogle;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        firebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        
+        googlbtnimage=(Button)findViewById(R.id.googlbtnimage);
+       //구글 로그인 버튼 리스너
+        googlbtnimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        Intent signInIntent = googleSignInClient.getSignInIntent();
+                        startActivityForResult(signInIntent, RC_SIGN_IN);
+                        revokeAccess();
+            }
+        });
+        ////사용자 ID정보를 요청(requestemail())하도록 구글 로그인을 구성 하려면 'DEFAULT_SIGN_IN' 매개 변수를 사용하여 googleSignInOptions을 만들었다. 옵션을 선언한 googleSignInOptions으로 googleSignInClient를 선언 합니다.
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 구글로그인 버튼 응답
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // 구글 로그인 성공
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+
+            }
+        }
+    }//사용자가 정상적으로 로그인하면 GoogleSignInAccount 객체에서 ID 토큰을 가져와서 Firebase 사용자 인증 정보로 교환하고 해당 정보를 사용해 Firebase에 인증합니다.인증에 성공하면 MainAcitivity 화면으로 전환 합니다.
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {                
+                            Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // 로그인 실패
+                            Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+    //구글 로그아웃
+    private void revokeAccess() {
+
+        googleSignInClient.revokeAccess()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...;
+                    }
+                });
+    }
 ```
 <br>
 
 페이스북 계정으로 로그인
 ```java 
-//페이스북 로그인을 진행할때 로그인의 응답을 처리할 콜백관리자를 선언한다.
-
-CallbackManager callbackmanger;
-//페이스북 버튼 커스텀
-facebookbtnimage=(Button)findViewById(R.id.facebookbtnimage);  
-//페이스북 제공 버튼   로그인 결과에 응답하기위해  loginButton에 콜백을 등록한다.
-LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);  
-loginButton = findViewById(R.id.login_button);  
-LoginButton finalLoginButton = loginButton;
-//커스텀 버튼 리스너
-facebookbtnimage.setOnClickListener(new View.OnClickListener() {  
-@Override  
-public void onClick(View v)  
-{  
-finalLoginButton.performClick();  
-}
-//CallbackManager.Factory.create`를 호출하여 로그인 응답을 처리할 콜백 관리자를 만듭니다.
-callbackManager = CallbackManager.Factory.create();  
-loginButton.setReadPermissions("email", "public_profile"); 
  
-//로그인에 성공하면 `LoginResult` 매개변수에 새로운 `AccessToken`과 최근에 부여되거나 거부된 권한이 포함됩니다
-loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {  
-@Override  
-public void onSuccess(LoginResult loginResult) {  
-handleFacebookAccessToken(loginResult.getAccessToken());  
-}  
-@Override  
-public void onCancel() {  
-}  
-@Override  
-public void onError(FacebookException error) {  
-}  
-});
-//onActivittyResult 에서 callbackManager.onActivityResult를 호출하여 로그인 결과를  LoginManager에 전달 합니다.
-@Override  
-public void onActivityResult(int requestCode, int resultCode, Intent data) {  
-super.onActivityResult(requestCode, resultCode, data);  
-callbackManager.onActivityResult(requestCode, resultCode, data);
+//페이스북 로그인을 진행할때 로그인의 응답을 처리할 콜백관리자를 선언한다.
+    private CallbackManager callbackManager;
+    private LoginStatusCallback loginStatusCallback;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-}
-//사용자가 정상적으로 로그인 했을때  LoginButton의 onSuccess 콜백 매서드에서,로그인한 사용자의액세스 토큰을 가져오 Firebase 사용자 인증 정보로 교환하고 해당 정보를 사용해서 Firebase 인증을 받습니다.
-private void handleFacebookAccessToken( final AccessToken accessToken){  
-AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());  
-firebaseAuth.signInWithCredential(credential)  
-.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {  
-@Override  
-public void onComplete(@NonNull Task<AuthResult> task) {  
-if (task.isSuccessful()) {  
-//데이터 저장
-FirebaseUser user = firebaseAuth.getCurrentUser();  
-String cu = firebaseAuth.getUid();  
-String name = user.getDisplayName();  
-String email = user.getEmail();  
-Log.v("알림", "현재로그인한 유저 " + cu);  
-Log.v("알림", "현재로그인한 이메일 " + email);  
-Log.v("알림", "유저 이름 " + name);  
-userinfo userdata = new userinfo(name, email);  
-mDatabase.child("users").child(cu).setValue(userdata);  
-//
-Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();  
-Intent intent = new Intent(getApplicationContext(), MainActivity.class);  
-startActivity(intent);  
-finish();  
-} else {  
-// 로그인 실패  
-Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();  
-}  
-}  
-});  
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        firebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();   
+        facebookbtnimage=(Button)findViewById(R.id.facebookbtnimage);
+        /페이스북 제공 버튼   로그인 결과에 응답하기위해  loginButton에 콜백을 등록한다.
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton = findViewById(R.id.login_button);
+        LoginButton finalLoginButton = loginButton;
+
+     
+        //커스텀 버튼 리스너
+        facebookbtnimage.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            finalLoginButton.performClick();
+
+        }
+
+          });
+        //CallbackManager.Factory.create`를 호출하여 로그인 응답을 처리할 콜백 관리자를 만듭니다.
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.setReadPermissions("email", "public_profile");
+        //로그인에 성공하면 `LoginResult` 매개변수에 새로운 `AccessToken`과 최근에 부여되거나 거부된 권한이 포함됩니다
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+            @Override
+            public void onCancel() {
+            }
+            @Override
+            public void onError(FacebookException error) {
+            }
+        });
+    //사용자가 정상적으로 로그인 했을때  LoginButton의 onSuccess 콜백 매서드에서,로그인한 사용자의액세스 토큰을 가져오 Firebase 사용자 인증 정보로 교환하고 해당 정보를 사용해서 Firebase 인증을 받습니다.
+    private void handleFacebookAccessToken( final AccessToken accessToken){
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // 로그인 실패
+                            Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+    //onActivittyResult 에서 callbackManager.onActivityResult를 호출하여 로그인 결과를  LoginManager에 전달 합니다.
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+  //페이스북 로그아웃
+    private void access(){
+        firebaseAuth.getCurrentUser().unlink(PROVIDER_ID)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Auth provider unlinked from account
+                            // ...
+                        }
+                    }
+                });
+    }
+
 }
 
 ```
 <br>
 
 
-데이터베이스 저장
+데이터베이스 저장('Facebook 로그인','Google 로그인' 공통 부분)
 
 ```java
-//getInstance를 사용하여 데이터베이스의 인스턴스를 검색하고, 쓰려는 위치를 참조  
-private FirebaseDatabase database = FirebaseDatabase.getInstance();  
-//데이터 베이스에서 데이터를 읽거나 쓰기 위해 DataReference의 인스턴스 선언  
-private DatabaseReference mDatabase;
-
-//user는 현재 로그인 되어있는 사용자를 의미한다.
-FirebaseUser user = firebaseAuth.getCurrentUser();  
-//firebaseAuth.getUid()는 고정되어있는 값이 아니라 유동적이다.
-String cu = firebaseAuth.getUid();  
-//로그인 되어있는 사용자의 정보를 얻어 온다.
-String name = user.getDisplayName();  
-String email = user.getEmail();  
-//Log에 기록을 남긴다.
-Log.v("알림", "현재로그인한 유저 " + cu);  
-Log.v("알림", "현재로그인한 이메일 " + email);  
-Log.v("알림", "유저 이름 " + name);  
-//데이터 저장의 확장을 위해 클래스를 만들었다.
-userinfo userdata = new userinfo(name, email);
-// 데이터를 쓰기 위한 DataReference의 인스턴스인 mDatabase 이다. "users" 하위노드 cu,cu의 하위노드에 userdata가 저장 된다 .
-mDatabase.child("users").child(cu).setValue(userdata); 
+    //getInstance를 사용하여 데이터베이스의 인스턴스를 검색하고, 쓰려는 위치를 참조  
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();  
+    //데이터 베이스에서 데이터를 읽거나 쓰기 위해 DataReference의 인스턴스 선언  
+    private DatabaseReference mDatabasef
+    ////user는 현재 로그인 되어있는 사용자를 의미한다
+    FirebaseUser user = firebaseAuth.getCurrentUser();
+    String cu = firebaseAuth.getUid();
+    //로그인 사용자의 정보 얻음
+    String name = user.getDisplayName();
+    String email = user.getEmail();
+    //Log 기록 
+    Log.v("알림", "현재로그인한 유저 " + cu);
+    Log.v("알림", "현재로그인한 이메일 " + email);
+    Log.v("알림", "유저 이름 " + name);
+    //데이터 저장 확장성을 위하 생성된 userinfo 클래스의 인스턴스 생성
+    userinfo userdata = new userinfo(name, email);
+    //데이터베이스에서 데이터 쓰기를 위해 DataReference의 인스턴스를 사용. 기본 쓰기 작업은 setValue() 코드를 사용하여 지정된 참조에 데이터를 저장하고 해당 경로의 기존 데이터를 모두 바꿉니다. child는 하위 노드에 작성 하기기위해 사용된다.
+    mDatabase.child("users").child(cu).setValue(userdata);
 ```
 <br> 
 
@@ -591,20 +616,20 @@ mDatabase.child("users").child(cu).setValue(userdata);
 
 회원가입 버튼 과 비밀번호 찾기 버튼  클릭 리스너 
 ```java
-//비밀번호찾기 버튼 클릭시 FindActivity 화면으로 전환
-bt_find.setOnClickListener(new View.OnClickListener() {  
+    //비밀번호찾기 버튼 클릭시 FindActivity 화면으로 전환
+    bt_find.setOnClickListener(new View.OnClickListener() {  
     @Override  
-  public void onClick(View v) {  
-        Intent intent = new Intent(getApplicationContext(), FindActivity.class);  
-  startActivity(intent);  
+       public void onClick(View v) {  
+       Intent intent = new Intent(getApplicationContext(), FindActivity.class);  
+       startActivity(intent);  
   }  
 });
   //회원가입 버튼 클릭시 SignUpActivity 화면으로 전환  
   btn_signup.setOnClickListener(new View.OnClickListener() {  
-        @Override  
-  public void onClick(View v) {  
-            Intent intent = new Intent(getApplication(), SignUpActivity.class);  
-  startActivity(intent);  
+  @Override  
+    public void onClick(View v) {  
+    Intent intent = new Intent(getApplication(), SignUpActivity.class);  
+    startActivity(intent);  
   }  
     });  
 }
@@ -625,32 +650,31 @@ bt_find.setOnClickListener(new View.OnClickListener() {
 
 
 ```java
-findeamil = (EditText) findViewById(R.id.findemail);  
-but_findpasssword = (Button) findViewById(R.id.but_findpassword);  
-firebaseAuth = FirebaseAuth.getInstance();  
-String eamilAddress=findeamil.getText().toString();  
-//버튼 클릭시 회원가입시 등록하 이메일로 메일을 보내서 재인증함.  
-but_findpasssword.setOnClickListener(new View.OnClickListener() {  
-@Override  
-public void onClick(View v) {  
-String eamilAddress = findeamil.getText().toString().trim();  
-firebaseAuth.sendPasswordResetEmail(eamilAddress)  
-.addOnCompleteListener(new OnCompleteListener<Void>() {  
-@Override  
-public void onComplete(@NonNull Task<Void> task) {  
-if (task.isSuccessful()) {  
-Toast.makeText(FindActivity.this, "이메일 보냈습니다.", Toast.LENGTH_SHORT).show();  
-Intent intent=new Intent(getApplicationContext(),LoginActivity.class);  
-startActivity(intent);  
-} else {  
-Toast.makeText(FindActivity.this, "이메일 보내기 실패.", Toast.LENGTH_SHORT).show();  
-}  
-}  
-});  
-}  
-});  
-}  
-}
+    findeamil = (EditText) findViewById(R.id.findemail);  
+    but_findpasssword = (Button) findViewById(R.id.but_findpassword);  
+    firebaseAuth = FirebaseAuth.getInstance();  
+    String eamilAddress=findeamil.getText().toString();  
+    //버튼 클릭시 회원가입시 등록하 이메일로 메일을 보내서 재인증함.  
+    but_findpasssword.setOnClickListener(new View.OnClickListener() {  
+    @Override  
+    public void onClick(View v) {  
+    String eamilAddress = findeamil.getText().toString().trim();  
+    firebaseAuth.sendPasswordResetEmail(eamilAddress).addOnCompleteListener(new OnCompleteListener<Void>() {  
+    @Override  
+    public void onComplete(@NonNull Task<Void> task) {  
+    if (task.isSuccessful()) {  
+     Toast.makeText(FindActivity.this, "이메일 보냈습니다.", Toast.LENGTH_SHORT).show();  
+     Intent intent=new Intent(getApplicationContext(),LoginActivity.class);  
+     startActivity(intent);  
+     } else {  
+        oast.makeText(FindActivity.this, "이메일 보내기 실패.", Toast.LENGTH_SHORT).show();  
+            }  
+    }     
+        });  
+    }  
+        });  
+    }  
+    }
 ```
 
 
@@ -673,91 +697,113 @@ Toast.makeText(FindActivity.this, "이메일 보내기 실패.", Toast.LENGTH_SH
 
 
 ```java
-//이메일 유효성 위한 선언
-String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    FirebaseAuth firebaseAuth;
+    String email = "";
+    String password = "";
+    EditText ed_singupeamil, ed_signuppassword;
+    Button bt_newsignup, bt_backmain;
+    TextView tv_error_email,tv_error_password;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabase;// ...
+    /이메일 유효성체크 위한 선언
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+        firebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ed_singupeamil=(EditText)findViewById(R.id.ed_signupemail);
+        ed_signuppassword=(EditText)findViewById(R.id.ed_signuppassword);
+        bt_newsignup=(Button)findViewById(R.id.bt_newsignup);
+        bt_backmain=(Button)findViewById(R.id.bt_backmain);
+        tv_error_email = (TextView)findViewById(R.id.tv_error_email);
+        tv_error_password=(TextView)findViewById(R.id.tv_error_password);
+        //아이디와 비밀번호 작성 후 클릭시 회원가입 진행 후 메인 화면으로 전환
+        bt_newsignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email=ed_singupeamil.getText().toString();
+                password=ed_signuppassword.getText().toString();
+                //이메일 유효성 체크
+                if(email.matches(emailPattern))
+                {
+                    tv_error_email.setText("");         //에러 메세지 제거
+                    ed_singupeamil.setBackgroundResource(R.drawable.white_edittext);  //테투리 흰색으로 변경
+                }
+                else {
+                    tv_error_email.setText("이메일 형식으로 입력해주세요.");
+                    ed_singupeamil.setBackgroundResource(R.drawable.red_edittext);  // 적색 테두리 적용
+                }
+                //비밀번호 유효성 체크
+                if(password.getBytes().length<6){
+                    tv_error_password.setText("비밀번호가 6자리 미만입니다 6자리 이상 입력해주세요.");
+                    ed_signuppassword.setBackgroundResource(R.drawable.red_edittext);  // 적색 테두리 적용
 
-bt_newsignup.setOnClickListener(new View.OnClickListener() {  
-@Override  
-public void onClick(View v) {  
-email=ed_singupeamil.getText().toString();  
-password=ed_signuppassword.getText().toString();  
-//이메일 유효성 체크
-if(email.matches(emailPattern))  
-{  
-tv_error_email.setText(""); //에러 메세지 제거  
-ed_singupeamil.setBackgroundResource(R.drawable.white_edittext); //테투리 흰색으로 변경  
-}  
-else {  
-tv_error_email.setText("이메일 형식으로 입력해주세요.");  
-ed_singupeamil.setBackgroundResource(R.drawable.red_edittext); // 적색 테두리 적용  
-}  
-//비밀번호 유효성 체크
-if(password.getBytes().length<6){  
-tv_error_password.setText("비밀번호가 6자리 미만입니다 6자리 이상 입력해주세요.");  
-ed_signuppassword.setBackgroundResource(R.drawable.red_edittext); // 적색 테두리 적용  
-} 
-else{  
-tv_error_password.setText(""); //에러 메세지 제거  
-ed_signuppassword.setBackgroundResource(R.drawable.white_edittext); //테투리 흰색으로 변경  
 
-}  
-//이메일 비밀번호 공백 여부 체크
-if(isValidEmail() && isValidPasswd()) {  
-createUser(email, password);  
-}  
-}  
-});  
-//로그인화면으로 전환 리스너
-bt_backmain.setOnClickListener(new View.OnClickListener() {  
-@Override  
-public void onClick(View v) {  
-Intent intent=new Intent(getApplication(),LoginActivity.class);  
-startActivity(intent);  
-}  
-});  
-} 
-//이메일 공백 체크
-private boolean isValidEmail() {  
-if (email.isEmpty()) {  
-Toast.makeText(SignUpActivity.this,"이메일이 공백입니다.",Toast.LENGTH_SHORT);  
-return false;  }  
-else {  
-return true;  
-}  
-}  
-// 비밀번호 공백 체크  
-private boolean isValidPasswd() {  
-if (password.isEmpty()) {  
-// 비밀번호 공백  
-Toast.makeText(SignUpActivity.this, "패스워드가 공백입니다.", Toast.LENGTH_SHORT);  
-return false;
-}
-else {  
-return true;  
-}  
-}
-//email과 password를 유효성이 없으면 값을 받아와 `createUserWithEmailAndPassword`에 전달하여 신규 계정을 생성합니다. 계정 생성에 성공을 하면 MainAcitivity로 화면이 전환 됩니다. 계정 생성 실패시  메세지를 띄웁니다   
-private void createUser(final String email, final String password) {  
-firebaseAuth.createUserWithEmailAndPassword(email, password)  
-.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {  
-@Override  
-public void onComplete(@NonNull Task<AuthResult> task) {  
-if (task.isSuccessful()) {  
-// 회원가입 성공  
-Toast.makeText(SignUpActivity.this, "Make You Study에 오신 것을 환영합니다.", Toast.LENGTH_SHORT).show();  
-Intent intent=new Intent(getApplicationContext(),MainActivity.class);  
-startActivity(intent);  
-String cu = firebaseAuth.getUid();  
-userinfo userdata = new userinfo(email, password);  
-mDatabase.child("users").child(cu).setValue(userdata);  
-finish();  
-} else {  
-// 회원가입 실패  
-Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();  
-}  
-}  
-});  
-}  
+                }
+                else{
+                    tv_error_password.setText("");         //에러 메세지 제거
+                    ed_signuppassword.setBackgroundResource(R.drawable.white_edittext);  //테투리 흰색으로 변경
+
+                }
+                if(isValidEmail() && isValidPasswd()) {
+                    createUser(email, password);
+                }
+
+            }
+        });
+        //로그인 화면으로 전환 
+        bt_backmain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplication(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private boolean isValidEmail() {
+        if (email.isEmpty()) {
+            // 이메일 공백
+            Toast.makeText(SignUpActivity.this,"이메일이 공백입니다.",Toast.LENGTH_SHORT);
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    // 비밀번호 유효성 검사
+    private boolean isValidPasswd() {
+        if (password.isEmpty()) {
+            // 비밀번호 공백
+            Toast.makeText(SignUpActivity.this, "패스워드가 공백입니다.", Toast.LENGTH_SHORT);
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //입력된 eamil과 비밀번호를 가지고 회원가입 진행 
+    private void createUser(final String email, final String password) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // 회원가입 성공
+                            Toast.makeText(SignUpActivity.this, "Make You Study에 오신 것을 환영합니다.", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(intent);
+                            String cu = firebaseAuth.getUid();
+                            userinfo userdata = new userinfo(email, password);
+                            mDatabase.child("users").child(cu).setValue(userdata);
+                            finish();
+                        } else {
+                            // 회원가입 실패
+                            Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }
 ```
 <br>
