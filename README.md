@@ -1850,8 +1850,7 @@ public class AlarmService extends Service {
   - 다이어리 작성칸에서 글을 작성하고 저장하면 목록보기 창에서 본인이 적었던 날짜와 시간과 함께 확인할 수 있다.
   -  아래 사진은 다이어리 실행 화면이다.
  <br>
- ![image](https://user-images.githubusercontent.com/62636101/85469611-db080f00-b5e8-11ea-9728-943e5b9d7a5b.png)
- 
+ ![image](https://user-images.githubusercontent.com/62636101/85548097-8fda1480-b659-11ea-8012-71e8e66f16af.png)
  <br>
  
  다이어리 디자인 구성을 위해 아래와 같이 build.gradle (:app)에 추가해준다.
