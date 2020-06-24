@@ -123,17 +123,17 @@ private void checkOverlayPermission(){
 Handler 를 이용해 3초의 딜레이 진행 뒤에야 MainActivity 화면으로 전환 된다.
 
 ```java
-//3초간 화면 delay
-Handler timer=new Handler();  
-timer.postDelayed(new Runnable() {  
-@Override  
-public void run() {  
-//메인 화면으로 전환 
-Intent intent=new Intent(getApplication(), MainActivity.class);  
-startActivity(intent);  
-finish();  
-}  
-},3000);
+ Handler timer=new Handler();
+        timer.postDelayed(new Runnable() 
+        {
+            @Override
+            public void run()
+            {
+                Intent intent=new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        },3000);
 ```
 
 
