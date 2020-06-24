@@ -113,7 +113,9 @@ private void checkOverlayPermission(){
 
 <br>
 
- [AndroidManifest.xml전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/AndroidManifest.xml)
+
+[AndroidManifest.xml전체 코드 보기](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/AndroidManifest.xml)
+
 
 <br>
 
