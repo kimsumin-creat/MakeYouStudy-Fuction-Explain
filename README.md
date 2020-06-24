@@ -21,7 +21,7 @@
 
 <br>
 
-##  권한 허용 알림 및 로그인 
+##  권한 허용 알림 
 ### Permission Check
 
 Make You Study는 다음의 권한을 허용해 주어야 한다.
