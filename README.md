@@ -154,7 +154,9 @@ Handler timer=new Handler();
 - Profile
 <br>
 순서대로 각 button의 icon image이다.
+
 ![fffff](https://user-images.githubusercontent.com/50138845/85494542-d60c8500-b613-11ea-80b1-c9d4917bbdd4.png)
+
 <br>
 
 ### 버튼 클릭 Listener
