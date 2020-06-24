@@ -1724,7 +1724,7 @@ public void onReceive(Context context, Intent intent) {
 }
 ~~~
 
-[AlarmReceiver 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmReceiver.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmReceiver.java))
+> [AlarmReceiver 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmReceiver.java)
 
 ###  AlarmService.Java
 정해진 시간에 알람이 울렸을 때 Service를 통하여 Vibrator와 Media를 재생할 수 있도록 해준다.
