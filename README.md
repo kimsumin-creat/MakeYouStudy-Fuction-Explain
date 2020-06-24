@@ -144,6 +144,7 @@ Handler timer=new Handler();
 ![loading](https://user-images.githubusercontent.com/50138845/85493659-431f1b00-b612-11ea-8688-b82e57a93f15.gif)
 
 
+[Loading.java 전체 코드 보기 ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/Loading.java)
 
 ## 메인 화면
 
