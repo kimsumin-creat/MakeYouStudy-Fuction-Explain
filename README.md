@@ -1560,6 +1560,8 @@ if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
 }
 ~~~
 
+[TimeTableActivity.java 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java))
+
 **EditActivity.Java**
 <br>EditActivity의 주요기능은 시간표를 생성, 수정 및 삭제하는 역할을 수행한다.
 
@@ -1616,6 +1618,8 @@ TimeTableActivity로 생성, 수정 및 삭제를 구별하여 intent를 전송�
 ~~~java
 @Override public void onClick(View v) {...}
 ~~~
+
+[EditActivity.java 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/EditActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/EditActivity.java))
 
 **AlarmReceiver.Java**
 <br>AlarmReceiver는 Alarm Broadcast Message를 수신하는 역할을 수행한다.
@@ -1719,6 +1723,9 @@ public void onReceive(Context context, Intent intent) {
     }
 }
 ~~~
+
+[AlarmReceiver 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmReceiver.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmReceiver.java))
+
 ###  AlarmService.Java
 정해진 시간에 알람이 울렸을 때 Service를 통하여 Vibrator와 Media를 재생할 수 있도록 해준다.
 
@@ -1831,6 +1838,8 @@ public class AlarmService extends Service {
 }
 ~~~
 > 참고자료 : [`MediaPlayer()`]([https://developer.android.com/guide/topics/media/mediaplayer?hl=ko](https://developer.android.com/guide/topics/media/mediaplayer?hl=ko)), [`Vibrator()`]([https://developer88.tistory.com/103](https://developer88.tistory.com/103)), [`NotificationChannel`]([https://developer.android.com/training/notify-user/channels?hl=ko](https://developer.android.com/training/notify-user/channels?hl=ko))
+
+[AlarmService.java 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmService.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AlarmService.java)) 
 
 ## Diary
 
@@ -2975,3 +2984,4 @@ bardataset.setColors(weekColor);
 barChart.setData(barData);
 ~~~
 
+[AttendanceRateActivity.Java 코드 보러 가기]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AttendanceRateActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/AttendanceRateActivity.java))
