@@ -338,7 +338,7 @@ imageViewGood.setImageResource(res);
 ~~~
 <br>
 
-> [MainActivity.java 전체코드 보기 ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/MainActivity.java)
+[MainActivity.java 전체코드 보기 ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/MainActivity.java)
 
 <br>
 
