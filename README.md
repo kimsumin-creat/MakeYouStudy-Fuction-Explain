@@ -1123,6 +1123,7 @@ this.profile = profile;
 }
 ```
 
+![userinfo.java 코드 전체 보기 ](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/userinfo.java)
 
 ##   Calendar
 Calendar기능은 자신의 한달 일정을 확인 할 수 있고 일정에 따라 공부계획 수정이 가능하도록 도와준다.
