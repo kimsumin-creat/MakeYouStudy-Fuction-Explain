@@ -1560,7 +1560,7 @@ if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
 }
 ~~~
 
-[TimeTableActivity.java 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java))
+[TimeTableActivity.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/TimeTableActivity.java)
 
 **EditActivity.Java**
 <br>EditActivity의 주요기능은 시간표를 생성, 수정 및 삭제하는 역할을 수행한다.
@@ -1619,7 +1619,7 @@ TimeTableActivity로 생성, 수정 및 삭제를 구별하여 intent를 전송�
 @Override public void onClick(View v) {...}
 ~~~
 
-[EditActivity.java 전체 코드]([https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/EditActivity.java](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/EditActivity.java))
+[EditActivity.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/master/app/src/main/java/com/android/MakeYouStudy/EditActivity.java)
 
 **AlarmReceiver.Java**
 <br>AlarmReceiver는 Alarm Broadcast Message를 수신하는 역할을 수행한다.
@@ -1840,6 +1840,17 @@ public class AlarmService extends Service {
 > 참고자료 : [`MediaPlayer()`](https://developer.android.com/guide/topics/media/mediaplayer?hl=ko), [`Vibrator()`](https://developer88.tistory.com/103), [`NotificationChannel`](https://developer.android.com/training/notify-user/channels?hl=ko)
 
 [AlarmService.java 전체 코드](https://github.com/JJinTae/MakeYouStudy/blob/a4176e38037ec19f28e1f9cb226c5f97a2e8c902/app/src/main/java/com/android/MakeYouStudy/AlarmService.java#L1)
+
+마지막으로 [AndroidManifest.xml](https://github.com/JJinTae/MakeYouStudy/blob/3358aea468dac89874e314b5d4f32617324f4f1b/app/src/main/AndroidManifest.xml#L112)에 다음과 같이 Receiver와 service를 등록해준다.
+~~~java
+<receiver
+    android:name=".AlarmReceiver"
+    android:enabled="true"
+    android:exported="false" />
+<service
+    android:name=".AlarmService"
+    android:enabled="true" />
+~~~
 
 ## Diary
 
